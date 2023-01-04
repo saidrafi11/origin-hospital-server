@@ -2,7 +2,7 @@ const express = require('express')
 // const packageName = require('packageName')
 const cors = require('cors')
 require('dotenv').config();
-const { MongoClient, ServerApiVersion } = require('mongodb');
+const { MongoClient, ServerApiVersion, ObjectId } = require('mongodb');
 
 const app = express()
 const port = process.env.PORT || 5000;
@@ -83,6 +83,29 @@ async function run() {
       res.send(result);
     })
       
+    app.delete('/delete-indoor-service/:id', async(req, res) =>{
+      const id = req.params.id;
+      const query = { _id: ObjectId(id)}
+      const result = await indoorServiceCollection.deleteOne(query);
+      console.log('trying to delete', id)
+      res.send(result)
+    })
+
+    app.delete('/delete-outdoor-service/:id', async(req, res) =>{
+      const id = req.params.id;
+      const query = { _id: ObjectId(id)}
+      const result = await outdoorServiceCollection.deleteOne(query);
+      console.log('trying to delete', id)
+      res.send(result)
+    })
+
+    app.delete('/delete-other-service/:id', async(req, res) =>{
+      const id = req.params.id;
+      const query = { _id: ObjectId(id)}
+      const result = await otherServiceCollection.deleteOne(query);
+      console.log('trying to delete', id)
+      res.send(result)
+    })
 
       
 
