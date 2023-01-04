@@ -13,7 +13,7 @@ app.use(express.json())
 
 
 
-const uri = `mongodb+srv://origin-db:bizoWWfi4KHLQSh8@cluster0.ua9xvba.mongodb.net/?retryWrites=true&w=majority`;
+const uri = `mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASSWORD}@cluster0.ua9xvba.mongodb.net/?retryWrites=true&w=majority`;
 
 const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true, serverApi: ServerApiVersion.v1 });
 
@@ -24,11 +24,7 @@ async function run() {
       const outdoorServiceCollection = client.db('origin-db').collection('outdoorservices')
       const otherServiceCollection = client.db('origin-db').collection('otherservices')
 
-      // app.post('indoor-services', (req, res) => {
-      //   const compleatedTasks = req.body;
-      //   const result = allComment.insertOne(compleatedTasks);
-      //   res.send(result)
-      // })
+      
 
       app.post('/indoor-services', async(req, res)=>{
         const service = req.body
