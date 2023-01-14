@@ -23,6 +23,7 @@ async function run() {
       const indoorServiceCollection = client.db('origin-db').collection('indoorservices')
       const outdoorServiceCollection = client.db('origin-db').collection('outdoorservices')
       const otherServiceCollection = client.db('origin-db').collection('otherservices')
+      const depertments = client.db('origin-db').collection('depertments')
 
       
 
@@ -62,7 +63,27 @@ async function run() {
         res.send(result)
 
     })
+      app.post('/depertments', async(req, res)=>{
+        const data = req.body
+        
+    
+        const query ={
+          depertmentName: data.depertmentName,
+          depertmentURL: data.depertmentURL
+            
+        }
+        
+        const result = await depertments.insertOne(query)
+        res.send(result)
 
+    })
+
+    app.get('/depertments', async(req, res)=>{
+      const query ={};
+      const cursor = depertments.find(query)
+      const result = await cursor.toArray()
+      res.send(result);
+    })
     app.get('/indoor-services', async(req, res)=>{
       const query ={};
       const cursor = indoorServiceCollection.find(query)
@@ -104,6 +125,14 @@ async function run() {
       const query = { _id: ObjectId(id)}
       const result = await otherServiceCollection.deleteOne(query);
       console.log('trying to delete', id)
+      res.send(result)
+    })
+
+    app.delete('/delete-depertments/:id', async(req, res) =>{
+      const id = req.params.id;
+      const query = { _id: ObjectId(id)}
+      const result = await depertments.deleteOne(query);
+      
       res.send(result)
     })
 
